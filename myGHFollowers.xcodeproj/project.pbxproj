@@ -307,6 +307,8 @@
 			dependencies = (
 			);
 			name = myGHFollowers;
+			packageProductDependencies = (
+			);
 			productName = myGHFollowers;
 			productReference = CBE47E3324FD5566001CB3BE /* myGHFollowers.app */;
 			productType = "com.apple.product-type.application";
@@ -335,6 +337,8 @@
 				Base,
 			);
 			mainGroup = CBE47E2A24FD5566001CB3BE;
+			packageReferences = (
+			);
 			productRefGroup = CBE47E3424FD5566001CB3BE /* Products */;
 			projectDirPath = "";
 			projectRoot = "";

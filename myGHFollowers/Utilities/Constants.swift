@@ -15,6 +15,9 @@ enum SFSymbols {
     static let gists                 = UIImage(systemName: "text.alignleft")
     static let followers             = UIImage(systemName: "heart")
     static let following             = UIImage(systemName: "person.2")
+    static let star                  = UIImage(systemName: "star")
+    static let starFilled            = UIImage(systemName: "star.fill")
+
 }
 
 
@@ -50,6 +53,6 @@ enum DeviceTypes {
     static func isiPhoneXAspectRatio() -> Bool {
         return isiPhoneX || isiPhoneXsMaxAndXr
     }
-    
+
     // Zoomed mode makes everything bigger, and turns an iPhone 6, 7, or 8 screen size into the iPhone SE screen size.
 }

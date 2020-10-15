@@ -22,6 +22,8 @@ class UserInfoVC: UIViewController {
     let itemViewTwo         = UIView()
     var dateLabel           = GFMessageLabel(textAlignment: .center)
     var itemViews: [UIView] = []
+    
+    var favorites: [String] = []
 
     var username: String!
     weak var delegate: UserInfoVCDelegate!  // Must use weak if delegate is a class (val-types don't make strong reference cycles).
@@ -29,6 +31,7 @@ class UserInfoVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        getFavorites()
         configureViewController()
         configureScrollView()
         layoutUI()
@@ -38,9 +41,63 @@ class UserInfoVC: UIViewController {
     
     func configureViewController() {
         view.backgroundColor = .systemBackground
-        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismissVC))
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .done,
+                                         target: self,
+                                         action: #selector(dismissVC))
         navigationItem.rightBarButtonItem = doneButton
+        
+        if favorites.contains(username) {
+            let favoriteButton = UIBarButtonItem(image: SFSymbols.starFilled,
+                                                 style: .plain,
+                                                 target: self,
+                                                 action: #selector(removeFavorite))
+            navigationItem.leftBarButtonItem = favoriteButton
+        } else {
+            let favoriteButton = UIBarButtonItem(image: SFSymbols.star,
+                                                 style: .plain,
+                                                 target: self,
+                                                 action: #selector(addButtonTapped))
+            navigationItem.leftBarButtonItem = favoriteButton
+        }
     }
+    
+    
+    @objc func removeFavorite() {
+        print("Follower has been removed from your favorites")
+    }
+    
+    
+    func addUserToFavorites(user: User) {
+        let favorite = Follower(login: user.login, avatarUrl: user.avatarUrl)
+        
+        PersistenceManager.updateWith(favorite: favorite, actionType: .add) { [weak self] error in
+            guard let self = self else { return }
+            
+            guard let error = error else {
+                self.presentGFAlertOnMainThread(title: "Success", message: "You have successfully added \(user.login) to your Favorites! 🎉", buttonTitle: "Hooray!")
+                return
+            }
+            
+            self.presentGFAlertOnMainThread(title: "Something went wrong", message: error.rawValue, buttonTitle: "Ok")
+        }
+    }
+    
+    
+    func getFavorites() {
+           PersistenceManager.retrieveFavorites { [weak self] result in
+               guard let self = self else { return }
+               
+               switch result {
+               case .success(let favorites):
+                self.favorites = favorites.map({ (w) -> String in
+                    return w.login
+                })
+                   
+               case .failure(let error):
+                   self.presentGFAlertOnMainThread(title: "Something went wrong", message: error.rawValue, buttonTitle: "Ok")
+               }
+           }
+       }
     
     
     func configureScrollView() {
@@ -123,6 +180,32 @@ class UserInfoVC: UIViewController {
     
     @objc func dismissVC() {
         dismiss(animated: true)
+    }
+    
+    
+    @objc func addButtonTapped() -> Void {
+        showLoadingView()
+        
+        NetworkManager.shared.getUserInfo(for: username) { [weak self] result in
+            guard let self = self else { return }
+            self.dismissLoadingView()
+            
+            switch result {
+            case .success(let user):
+                self.addUserToFavorites(user: user);
+                DispatchQueue.main.async {
+                    let favoriteButton = UIBarButtonItem(image: SFSymbols.starFilled,
+                                                         style: .plain,
+                                                         target: self,
+                                                         action: #selector(self.removeFavorite))
+                    self.navigationItem.leftBarButtonItem = favoriteButton
+                }
+                
+                
+            case .failure(let error):
+                self.presentGFAlertOnMainThread(title: "Something went wrong", message: error.rawValue, buttonTitle: "Ok")
+            }
+        }
     }
 }
 

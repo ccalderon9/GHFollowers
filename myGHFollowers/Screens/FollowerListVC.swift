@@ -63,8 +63,8 @@ class FollowerListVC: UIViewController {
         view.backgroundColor = .systemBackground
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.hidesSearchBarWhenScrolling = false
-        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTapped))
-        navigationItem.rightBarButtonItem = addButton
+//        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTapped))
+//        navigationItem.rightBarButtonItem = addButton
     }
     
     
@@ -83,7 +83,6 @@ class FollowerListVC: UIViewController {
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder                = "Search for a username."
         navigationItem.searchController        = searchController
-      //  navigationItem.hidesSearchBarWhenScrolling = false  // Prevents searchBar from disappearing when you go < back, and then forward again.
     }
     
     
@@ -155,24 +154,7 @@ class FollowerListVC: UIViewController {
         }
     }
     
-    
-    @objc func addButtonTapped() {
-        showLoadingView()
-        
-        NetworkManager.shared.getUserInfo(for: username) { [weak self] result in
-            guard let self = self else { return }
-            self.dismissLoadingView()
-            
-            switch result {
-            case .success(let user):
-                self.addUserToFavorites(user: user)
-                
-            case .failure(let error):
-                self.presentGFAlertOnMainThread(title: "Something went wrong", message: error.rawValue, buttonTitle: "Ok")
-            }
-        }
-    }
-    
+
     func addUserToFavorites(user: User) {
         let favorite = Follower(login: user.login, avatarUrl: user.avatarUrl)
         
