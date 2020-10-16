@@ -1,11 +1,41 @@
-# GHFollowers-repo
+# GHFollowers
 
-This is a project from Sean Allen's "Take Home Project for an iOS Dev job interview". While most of the project is Sean's design, stayed tuned for my own customizations including:
+This project is based on Sean Allen's iOS Dev Job Interview Practice course. While most of the project is Sean's design I made a few changes in order to enhance the user's experience. 
 
-- Allowing the user to favorite from the UserInfoVC 
-- Adding a custom message to empty state when search returns no results
-- Allow user to see the profile of the favorited user.
+This project showccases:
 
-## Bugs
+• 100% ProgrammaticUI
+• CollectionViews with the new DiffableDataSource
+• Search Controllers
+• Network Calls
+• Parsing JSON with Codable
+• Pagination of Network calls
+• Memory Management - Capture Lists [weak self]
+• Image Caching
+• No 3rd party libraries
+• Dark Mode
+• Custom Alerts
+• Project organization
+• Composition - Longest VC is 200 lines of code
+• Child View Controllers
+• UITableView
+• Delegation
+• Persistence
+• Proper Error Handling
+• Empty States
+• SafariViewController
+• SFSymbols
+• Dynamic Type
+• StackViews
+• Date Formatters
+• Activity Indicators
+• Reusable Components
+• SceneDelegate
+• Poor Network Testing
+• Passing Data between views
 
--  In search bar, type “D”, filters to 20, but then when hit the bottom, pulls in the next 100 which do not conform to filter of “D”.
+## My improvements
+
+- Repositioned the Add to Favorites button to the UserInfo screen that way the user can make the choice to favorite after they've seen the GitHub user's info. 
+- Add button is now a star SFSymbol that is filled in if the user is already in your favorites and otherwise un-filled.
+- Add button fulfills the double functions of adding/removing a user from your favorites based on their status.

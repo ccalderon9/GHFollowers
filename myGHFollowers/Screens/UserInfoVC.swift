@@ -50,20 +50,15 @@ class UserInfoVC: UIViewController {
             let favoriteButton = UIBarButtonItem(image: SFSymbols.starFilled,
                                                  style: .plain,
                                                  target: self,
-                                                 action: #selector(removeFavorite))
+                                                 action: #selector(removeFromFavorites))
             navigationItem.leftBarButtonItem = favoriteButton
         } else {
             let favoriteButton = UIBarButtonItem(image: SFSymbols.star,
                                                  style: .plain,
                                                  target: self,
-                                                 action: #selector(addButtonTapped))
+                                                 action: #selector(addToFavorites))
             navigationItem.leftBarButtonItem = favoriteButton
         }
-    }
-    
-    
-    @objc func removeFavorite() {
-        print("Follower has been removed from your favorites")
     }
     
     
@@ -183,7 +178,7 @@ class UserInfoVC: UIViewController {
     }
     
     
-    @objc func addButtonTapped() -> Void {
+    @objc func addToFavorites() {
         showLoadingView()
         
         NetworkManager.shared.getUserInfo(for: username) { [weak self] result in
@@ -197,7 +192,7 @@ class UserInfoVC: UIViewController {
                     let favoriteButton = UIBarButtonItem(image: SFSymbols.starFilled,
                                                          style: .plain,
                                                          target: self,
-                                                         action: #selector(self.removeFavorite))
+                                                         action: #selector(self.removeFromFavorites))
                     self.navigationItem.leftBarButtonItem = favoriteButton
                 }
                 
@@ -206,6 +201,11 @@ class UserInfoVC: UIViewController {
                 self.presentGFAlertOnMainThread(title: "Something went wrong", message: error.rawValue, buttonTitle: "Ok")
             }
         }
+    }
+    
+    
+    @objc func removeFromFavorites() {
+       print("Follower has been removed from favorites")
     }
 }
 
