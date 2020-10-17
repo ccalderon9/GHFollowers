@@ -65,7 +65,7 @@ class FavoritesListVC: UIViewController {
     func updateUI(with favorites: [Follower]) {
         //Make sure we have favorites or show empty state
         if favorites.isEmpty {
-            self.showEmptyStateView(with: "No favorites?\nAdd one on the follower screen.", in: self.view)
+            self.showEmptyStateView(with: "Tap the ⭐️ to favorite a user!", in: self.view)
         } else  {
             self.favorites = favorites
             DispatchQueue.main.async {

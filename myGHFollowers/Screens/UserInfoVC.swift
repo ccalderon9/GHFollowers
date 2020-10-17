@@ -62,6 +62,32 @@ class UserInfoVC: UIViewController {
     }
     
     
+    @objc func addToFavorites() {
+        showLoadingView()
+        
+        NetworkManager.shared.getUserInfo(for: username) { [weak self] result in
+            guard let self = self else { return }
+            self.dismissLoadingView()
+            
+            switch result {
+            case .success(let user):
+                self.addUserToFavorites(user: user);
+                DispatchQueue.main.async {
+                    let favoriteButton = UIBarButtonItem(image: SFSymbols.starFilled,
+                                                         style: .plain,
+                                                         target: self,
+                                                         action: #selector(self.removeFromFavorites))
+                    self.navigationItem.leftBarButtonItem = favoriteButton
+                }
+                
+                
+            case .failure(let error):
+                self.presentGFAlertOnMainThread(title: "Something went wrong", message: error.rawValue, buttonTitle: "Ok")
+            }
+        }
+    }
+    
+    
     func addUserToFavorites(user: User) {
         let favorite = Follower(login: user.login, avatarUrl: user.avatarUrl)
         
@@ -77,6 +103,47 @@ class UserInfoVC: UIViewController {
         }
     }
     
+    
+    @objc func removeFromFavorites() {
+       showLoadingView()
+       
+       NetworkManager.shared.getUserInfo(for: username) { [weak self] result in
+           guard let self = self else { return }
+           self.dismissLoadingView()
+           
+           switch result {
+           case .success(let user):
+               self.removeUserFromFavorites(user: user);
+               DispatchQueue.main.async {
+                   let favoriteButton = UIBarButtonItem(image: SFSymbols.star,
+                                                        style: .plain,
+                                                        target: self,
+                                                        action: #selector(self.addToFavorites))
+                   self.navigationItem.leftBarButtonItem = favoriteButton
+               }
+               
+               
+           case .failure(let error):
+               self.presentGFAlertOnMainThread(title: "Something went wrong", message: error.rawValue, buttonTitle: "Ok")
+           }
+       }
+    }
+    
+    
+    func removeUserFromFavorites(user: User) {
+        let favorite = Follower(login: user.login, avatarUrl: user.avatarUrl)
+        
+        PersistenceManager.updateWith(favorite: favorite, actionType: .remove) { [weak self] error in
+            guard let self = self else { return }
+            
+            guard let error = error else {
+                self.presentGFAlertOnMainThread(title: "Removed", message: "\(user.login) has been removed from your Favorites", buttonTitle: "Ok!")
+                return
+            }
+            
+            self.presentGFAlertOnMainThread(title: "Something went wrong", message: error.rawValue, buttonTitle: "Ok")
+        }
+    }
     
     func getFavorites() {
            PersistenceManager.retrieveFavorites { [weak self] result in
@@ -175,37 +242,6 @@ class UserInfoVC: UIViewController {
     
     @objc func dismissVC() {
         dismiss(animated: true)
-    }
-    
-    
-    @objc func addToFavorites() {
-        showLoadingView()
-        
-        NetworkManager.shared.getUserInfo(for: username) { [weak self] result in
-            guard let self = self else { return }
-            self.dismissLoadingView()
-            
-            switch result {
-            case .success(let user):
-                self.addUserToFavorites(user: user);
-                DispatchQueue.main.async {
-                    let favoriteButton = UIBarButtonItem(image: SFSymbols.starFilled,
-                                                         style: .plain,
-                                                         target: self,
-                                                         action: #selector(self.removeFromFavorites))
-                    self.navigationItem.leftBarButtonItem = favoriteButton
-                }
-                
-                
-            case .failure(let error):
-                self.presentGFAlertOnMainThread(title: "Something went wrong", message: error.rawValue, buttonTitle: "Ok")
-            }
-        }
-    }
-    
-    
-    @objc func removeFromFavorites() {
-       print("Follower has been removed from favorites")
     }
 }
 

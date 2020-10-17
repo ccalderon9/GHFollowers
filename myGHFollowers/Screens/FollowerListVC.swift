@@ -81,7 +81,7 @@ class FollowerListVC: UIViewController {
         let searchController                                  = UISearchController()
         searchController.searchResultsUpdater                 = self
         searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder                = "Search for a username."
+        searchController.searchBar.placeholder                = "Search for a username"
         navigationItem.searchController        = searchController
     }
     

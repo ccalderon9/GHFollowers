@@ -27,10 +27,10 @@ enum PersistenceManager {
                 
                 switch actionType {
                 case .add:
-                    guard !favorites.contains(favorite) else {  // Checks favorited user doesn't already exist.
-                        completed(.alreadyInFavorites)
-                        return
-                    }
+//                    guard !favorites.contains(favorite) else {  // Checks favorited user doesn't already exist.
+//                        completed(.alreadyInFavorites)
+//                        return
+//                    }
                     favorites.append(favorite)
                     
                 case .remove:
