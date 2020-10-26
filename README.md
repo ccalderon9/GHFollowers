@@ -1,6 +1,6 @@
 # GHFollowers
 
-This project is based on Sean Allen's iOS Dev Job Interview Practice course. While most of the project is Sean's design I made a few UX improvements.
+This project is based on Sean Allen's iOS Dev Job Interview Practice course. While most of the project is Sean's design, I did code this from the ground up and made a few UX improvements.
 
 This project showcases:
 
@@ -11,7 +11,7 @@ This project showcases:
 - Parsing JSON with Codable
 - Pagination of Network calls
 - Memory Management - Capture Lists [weak self]
-- mage Caching
+- Image Caching
 - No 3rd party libraries
 - Dark Mode
 - Custom Alerts

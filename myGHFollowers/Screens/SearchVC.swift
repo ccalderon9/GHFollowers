@@ -13,13 +13,13 @@ import UIKit
 class SearchVC: UIViewController {
 
     let logoImageView         = UIImageView()
-    let usernameTextField     = GFTextField()// initialization also calls configure()
+    let usernameTextField     = GFTextField()
     let callToActionButton    = GFButton(backgroundColor: .systemGreen, title: "Get Followers")
 
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor        = .systemBackground// Will adapt. For lightmode: white, darkmode: black
+        view.backgroundColor        = .systemBackground
         view.addSubviews(logoImageView, usernameTextField, callToActionButton)
         configureLogoImageView()
         configureTextField()
@@ -27,40 +27,22 @@ class SearchVC: UIViewController {
         createDismissKeyboardTapGesture()
     }
 
-    // Deletes username input when phone is shaken.
-    override func motionBegan(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
-           usernameTextField.text = ""
-       }
-    
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        usernameTextField.text = "" // Clears out text field when you hit back.
-        navigationController?.setNavigationBarHidden(true, animated: true) // not placed in vDL b/c only gets called once. If went back, then navBar would show again. Instead, we need it called everytime the view is about to appear.
+        usernameTextField.text = ""
+        navigationController?.setNavigationBarHidden(true, animated: true)
     }
 
     
     func createDismissKeyboardTapGesture() {
         let tap = UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing))   // View resigns 1st responder status.
-        view.addGestureRecognizer(tap)  // putting status onto the general view.
-    }
-    
-    // Passing data
-    @objc func pushFollowerListVC() {
-        
-        guard let username = usernameTextField.text, !username.isEmpty else {
-            presentGFAlertOnMainThread(title: "Empty Username", message: "Please enter a username. We need to know who to look for!", buttonTitle: "Ok")
-            return
-        }
-        
-        let followerListVC = FollowerListVC(username: username)
-        usernameTextField.resignFirstResponder()    // Dismisses keyboard as soon as "Get followers" button is tapped.
-        navigationController?.pushViewController(followerListVC, animated: true)
+        view.addGestureRecognizer(tap)
     }
 
     
     func configureLogoImageView() {
-        logoImageView.translatesAutoresizingMaskIntoConstraints = false // Means we'll use autoLayout
+        logoImageView.translatesAutoresizingMaskIntoConstraints = false
         logoImageView.image = Images.ghLogo
         
         let topConstraintConstant: CGFloat = DeviceTypes.isiPhoneSE || DeviceTypes.isiPhone8Zoomed ? 20 : 80
@@ -75,7 +57,7 @@ class SearchVC: UIViewController {
     
     
     func configureTextField() {
-        usernameTextField.delegate = self   // Setting the delegate.
+        usernameTextField.delegate = self
         
         NSLayoutConstraint.activate([
             usernameTextField.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 48),  // pins it to the bottom of the logoImageView
@@ -87,7 +69,7 @@ class SearchVC: UIViewController {
     
     
     func configureCallToActionButton() {
-        callToActionButton.addTarget(self, action: #selector(pushFollowerListVC), for: .touchUpInside)  // whenever button pressed, pushFollowerListVC is called
+        callToActionButton.addTarget(self, action: #selector(pushFollowerListVC), for: .touchUpInside)
         
         NSLayoutConstraint.activate([
             callToActionButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50),
@@ -95,6 +77,20 @@ class SearchVC: UIViewController {
             callToActionButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
             callToActionButton.heightAnchor.constraint(equalToConstant: 50)
         ])
+    }
+    
+    
+    // Passing data
+    @objc func pushFollowerListVC() {
+        
+        guard let username = usernameTextField.text, !username.isEmpty else {
+            presentGFAlertOnMainThread(title: "Empty Username", message: "Please enter a username. We need to know who to look for!", buttonTitle: "Ok")
+            return
+        }
+        
+        let followerListVC = FollowerListVC(username: username)
+        usernameTextField.resignFirstResponder()    // Dismisses keyboard as soon as "Get followers" button is tapped.
+        navigationController?.pushViewController(followerListVC, animated: true)
     }
 
 }
