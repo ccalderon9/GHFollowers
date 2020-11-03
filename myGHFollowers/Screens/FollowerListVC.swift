@@ -12,15 +12,15 @@ class FollowerListVC: UIViewController {
 
     // Put 1 param in enum b/c enums are hashable by default.
     enum Section { case main }
-    
+
     var username: String!
-    var followers: [Follower] = []  // will be passed to snapshot.appendItems().
+    var followers: [Follower]         = []// will be passed to snapshot.appendItems().
     var filteredFollowers: [Follower] = []
-    var page = 1
-    var hasMoreFollowers = true
-    var isSearching = false
-    var isLoadingMoreFollowers = false
-    var lastScrollPosition: CGFloat = 0
+    var page                          = 1
+    var hasMoreFollowers              = true
+    var isSearching                   = false
+    var isLoadingMoreFollowers        = false
+    var lastScrollPosition: CGFloat   = 0
     
     var collectionView: UICollectionView!
     var dataSource: UICollectionViewDiffableDataSource<Section, Follower>!
