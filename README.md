@@ -2,8 +2,7 @@
 
 This project is based on Sean Allen's iOS Dev Job Interview Practice course. While most of the project is Sean's design, I did code this from the ground up and made a few UX improvements.
 
-![Image of screenshots]
-(https://user-images.githubusercontent.com/29626980/97947899-a00aaa80-1d43-11eb-9cf4-5c430eeae426.png)
+![Image of screenshots](https://user-images.githubusercontent.com/29626980/97947899-a00aaa80-1d43-11eb-9cf4-5c430eeae426.png)
 
 This project showcases:
 
