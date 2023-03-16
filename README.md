@@ -1,40 +1,19 @@
 # GHFollowers
 
-This project is based on Sean Allen's iOS Dev Job Interview Practice course. While most of the project is Sean's design, I did code this from the ground up and made a few UX improvements.
+GitHub Followers app is designed to let a user browse the followers of a selected Github user.  After selecting a follower, they can add them to their list of Favorites, view their profile or also view their followers. This project showcases:
 
-![Image of screenshots](https://user-images.githubusercontent.com/29626980/97947899-a00aaa80-1d43-11eb-9cf4-5c430eeae426.png)
-
-This project showcases:
-
-- 100% ProgrammaticUI
-- CollectionViews with the new DiffableDataSource
-- Search Controllers
-- Network Calls
-- Parsing JSON with Codable
+- CollectionViews with DiffableDataSource
+- Search Function
+- Parsing JSON with Codable protocol
 - Pagination of Network calls
 - Memory Management - Capture Lists [weak self]
 - Image Caching
-- No 3rd party libraries
-- Dark Mode
-- Custom Alerts
-- Project organization
-- Composition - Longest VC is 200 lines of code
-- Child View Controllers
-- UITableView
-- Delegation
+- MVC Architecture
 - Persistence
 - Proper Error Handling
-- Empty States
 - SafariViewController
-- SFSymbols
-- Dynamic Type
-- StackViews
 - Date Formatters
-- Activity Indicators
 - Reusable Components
-- SceneDelegate
-- Poor Network Testing
-- Passing Data between views
 
 ## UX improvements
 
